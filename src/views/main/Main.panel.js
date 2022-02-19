@@ -34,7 +34,6 @@ export const MainPanel = ({ id, changePopout }) => {
       icon: <Icon28FavoriteOutline width={32} height={32} fill="white" />,
       name: "Топ",
       action: () => {
-        wsQuery("game:update");
         go("rating");
         return;
       },
@@ -57,6 +56,8 @@ export const MainPanel = ({ id, changePopout }) => {
       icon: <Icon28GameOutline width={32} height={32} fill="white" />,
       name: "Игры",
       action: () => {
+        wsQuery("game:catalog");
+        go("games");
         return;
       },
     },

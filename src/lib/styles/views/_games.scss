@@ -1,0 +1,38 @@
+#panelGames {
+  .panel--in {
+    .Button {
+      border-radius: 8px;
+    }
+    .gamesList {
+      .gameCell {
+        padding: 0px;
+        .SimpleCell__description {
+          white-space: pre-wrap;
+          margin-right: 5px;
+        }
+        .Button {
+          .Button__content {
+            font-size: 14px;
+            padding: 7px 0px;
+          }
+        }
+      }
+      .info {
+        display: inline-block;
+        font-size: 14px;
+        color: var(--text_secondary);
+        width: 100%;
+        text-align: center;
+        margin-top: 15px;
+      }
+    }
+    .toolList {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      .Button {
+        padding: 0 10px;
+      }
+    }
+  }
+}

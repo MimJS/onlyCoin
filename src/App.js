@@ -7,10 +7,11 @@ import "./lib/styles/index.scss";
 
 import { useLocation, useRouter } from "@happysanta/router";
 import { MainView } from "./views/main";
-import { VIEW_ERROR, VIEW_MAIN, VIEW_RATING } from "./lib/routes";
+import { VIEW_ERROR, VIEW_GAMES, VIEW_MAIN, VIEW_RATING } from "./lib/routes";
 import { ErrorView } from "./views/error";
 import { getToken, getUserVKData } from "./lib/scripts/util";
 import { RatingView } from "./views/rating";
+import { GamesView } from "./views/games";
 
 const App = () => {
   const location = useLocation();
@@ -37,6 +38,7 @@ const App = () => {
         <Root activeView={location.getViewId()}>
           <MainView id={VIEW_MAIN} />
           <RatingView id={VIEW_RATING} />
+          <GamesView id={VIEW_GAMES} />
           <ErrorView id={VIEW_ERROR} />
         </Root>
       </AppRoot>

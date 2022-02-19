@@ -1,0 +1,46 @@
+#panelMyMerchant {
+  .panel--in {
+    .Button {
+      border-radius: 8px;
+    }
+    .merchantList {
+      .merchantCell {
+        padding: 0px;
+        .SimpleCell__children {
+          font-size: 15px;
+          font-weight: 500;
+        }
+        .SimpleCell__description {
+          font-size: 13px;
+        }
+      }
+      .info {
+        display: inline-block;
+        font-size: 14px;
+        color: var(--text_secondary);
+        width: 100%;
+        text-align: center;
+        margin-top: 15px;
+      }
+    }
+    .toolList {
+      &:not(:first-child) {
+        margin-top: 15px;
+      }
+      .toolBlock {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        .Icon {
+          margin-right: 15px;
+        }
+        .text {
+          font-weight: 500;
+        }
+        &:not(:first-child) {
+          margin-top: 20px;
+        }
+      }
+    }
+  }
+}

@@ -104,6 +104,18 @@ const wsListener = () => {
             return;
         }
         break;
+      case "developers":
+        switch (action) {
+          case "get":
+            store.dispatch({
+              type: "setMyMerchant",
+              payload: args,
+            });
+            break;
+          default:
+            return;
+        }
+        break;
       case "game":
         switch (action) {
           case "init":
@@ -122,6 +134,12 @@ const wsListener = () => {
             store.dispatch({
               type: "setErrorMessage",
               payload: args.error_public,
+            });
+            break;
+          case "catalog":
+            store.dispatch({
+              type: "setGamesData",
+              payload: args,
             });
             break;
           default:
