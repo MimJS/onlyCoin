@@ -24,9 +24,7 @@
       }
     }
     .toolList {
-      &:not(:first-child) {
-        margin-top: 15px;
-      }
+      margin-top: 15px;
       .toolBlock {
         display: flex;
         align-items: center;

@@ -91,6 +91,7 @@ export const MyMerchantsPanel = ({ id }) => {
                   );
                 })
               : null}
+            {!load && merchants.count == 0 ? <span className="info">Мерчантов нет</span> : null}
           </div>
 
           <div className="toolList">
