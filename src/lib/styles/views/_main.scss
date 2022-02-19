@@ -1,0 +1,125 @@
+#panelMain {
+  .panel--in {
+    .balanceBlock {
+      background-color: #ffffff;
+      background-image: linear-gradient(315deg, #b8d8f6 0%, #778ef1 74%);
+      border-radius: 15px;
+      padding: 50px 10px 25px;
+      text-align: center;
+      box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.11),
+        0 8px 20px 0 rgba(0, 0, 0, 0.24);
+      .balance {
+        color: white;
+        font-size: 35px;
+        line-height: 35px;
+        vertical-align: middle;
+      }
+      .Icon {
+        vertical-align: middle;
+        margin-left: 5px;
+        display: inline-block !important;
+        svg {
+          width: 35px;
+          height: 35px;
+        }
+      }
+      .balanceButtons {
+        display: flex;
+        margin-top: 25px;
+        padding: 0px 10px;
+        .Button {
+          &:not(:first-child) {
+            margin-left: 5px;
+          }
+          &:first-child {
+            margin-right: 5px;
+          }
+          background-color: white;
+          color: black;
+          border-radius: 50px;
+          padding: 2px;
+          .Button__content {
+            font-weight: 400;
+          }
+        }
+      }
+    }
+    .menuButtons {
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      .menuButton {
+        width: calc(25% - 5px);
+        display: inline-block;
+        text-align: center;
+        .menuIcon {
+          background-color: #ffffff;
+          background-image: linear-gradient(315deg, #b8d8f6 0%, #778ef1 74%);
+          border-radius: 12px;
+          box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.11),
+            0 8px 20px 0 rgba(0, 0, 0, 0.24);
+          height: 55px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.2s linear;
+          &:active {
+            transform: scale(0.95);
+          }
+        }
+        .menuName {
+          font-size: 12px;
+          font-weight: 500;
+        }
+      }
+    }
+    .infoBlock {
+      margin-top: 30px;
+      .infoBlock--in {
+        margin-top: 15px;
+        .paymentBlock {
+          padding-left: 0px !important;
+          padding-right: 0px !important;
+          &:not(:first-child) {
+            margin-top: 5px;
+          }
+          .marketAvatar {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            background-image: linear-gradient(315deg, #b8d8f6 0%, #778ef1 74%);
+            border-radius: 50%;
+            margin: 6px 12px 6px 0;
+          }
+          .SimpleCell__description {
+            .sum {
+              vertical-align: middle;
+              &.minus {
+                color: #dd4a68;
+              }
+              &.plus {
+                color: #01c37d;
+              }
+              .Icon {
+                vertical-align: middle;
+                display: inline-block;
+              }
+            }
+          }
+          .SimpleCell__after {
+            align-items: end !important;
+            height: 35px !important;
+            .date {
+              font-size: 12px;
+              color: gray;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+.select {
+  .block {
+    border-bottom: 2px gray solid;
+    padding-bottom: 10px;
+    cursor: pointer;
+    width: 50%;
+    display: inline-block;
+    text-align: center;
+    transition: all 0.15s linear;
+    &.block--active {
+      color: #778ef1;
+      border-color: #778ef1;
+    }
+  }
+}
