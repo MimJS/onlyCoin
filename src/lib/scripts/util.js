@@ -4,10 +4,16 @@ import { router, PAGE_ERROR } from "../routes";
 import { initWS } from "./ws";
 import bridge from "@vkontakte/vk-bridge";
 
-export const numberFormat = (num) => {
-  return Number(num / 1000)
-    .toFixed(3)
-    .replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+export const numberFormat = (num, around = false) => {
+  if (around) {
+    num = (num + "").replace(/[^0-9+\-Ee.]/g, "");
+    let numFunc = String(Number(Number(num / 1000).toFixed(3)));
+    return numFunc.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  } else {
+    return Number(num / 1000)
+      .toFixed(3)
+      .replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  }
 };
 
 export const getToken = (id) => {
@@ -149,4 +155,27 @@ export const getUsersVkData = async (ids) => {
   } else {
     return {};
   }
+};
+
+export const isNumeric = (n) => {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+};
+
+export const formatNumber = (
+  number,
+  decimals = 0,
+  dec_point = ".",
+  separator = " "
+) => {
+  number = (number + "").replace(/[^0-9+\-Ee.]/g, "");
+  let n = !isFinite(number) ? 0 : number,
+    sep = typeof separator === "undefined" ? "," : separator,
+    dec = typeof dec_point === "undefined" ? "." : dec_point,
+    s = "";
+  s = ("" + n).split(".");
+  if (s[0].length > 3) {
+    s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+  }
+
+  return s.join(dec);
 };

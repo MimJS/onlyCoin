@@ -13,7 +13,11 @@ import {
 } from "@vkontakte/vkui";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { getUsersVkData, numberFormat } from "../../lib/scripts/util";
+import {
+  getGroupsVkData,
+  getUsersVkData,
+  numberFormat,
+} from "../../lib/scripts/util";
 import { wsQuery } from "../../lib/scripts/ws";
 
 export const RatingPanel = ({ id }) => {
@@ -62,10 +66,22 @@ export const RatingPanel = ({ id }) => {
         setLoad(false);
       }
       if (topType === 1) {
+        let ids = [];
+        const rating = ratings.merchants.items;
+        for (let i = 0; i < rating.length; i++) {
+          let data = rating[i];
+          if (ids.indexOf(Math.abs(data.id)) < 0) {
+            ids.push(Math.abs(data.id));
+          }
+        }
+        const res = await getGroupsVkData(ids);
+        console.log(res);
+        setTempMerchantData(res);
+        setLoad(false);
       }
     };
     getData(activeInfo, ratings);
-  }, [ratings]);
+  }, [activeInfo, ratings]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -147,6 +163,47 @@ export const RatingPanel = ({ id }) => {
                   );
                 })
               : null}
+            {activeInfo === 1
+              ? ratings?.merchants?.items.map((v, i) => {
+                  const haveData =
+                    typeof tempMerchantData[Math.abs(v.id)] !== "undefined";
+                  const data = tempMerchantData[Math.abs(v.id)];
+                  return (
+                    <SimpleCell
+                      key={i}
+                      className={"ratingCell"}
+                      hasHover={false}
+                      hasActive={false}
+                      onClick={() => {
+                        window.open(`https://vk.com/public${Math.abs(v.id)}`);
+                      }}
+                      before={
+                        <div className="position">
+                          <span className="pos">
+                            <span>{i + 1}</span>
+                          </span>
+                          <Avatar
+                            size={48}
+                            src={haveData ? data.photo_100 : null}
+                          />
+                        </div>
+                      }
+                      description={
+                        <span className="sum">
+                          {numberFormat(v.coins)}{" "}
+                          <Icon24DollarCircleOutline
+                            fill="var(--text_primary)"
+                            width={14}
+                            height={14}
+                          />
+                        </span>
+                      }
+                    >
+                      {haveData ? `${data.name}` : `@public${Math.abs(v.id)}`}
+                    </SimpleCell>
+                  );
+                })
+              : null}
           </div>
         </PullToRefresh>
       ) : null}
@@ -163,7 +220,10 @@ export const RatingPanel = ({ id }) => {
               before={
                 <div className="position">
                   <span className="pos">
-                    <span>{ratings?.coins?.my?.position}</span>
+                    <span>
+                      {ratings?.coins?.my?.position > 50 ? "~" : null}{" "}
+                      {ratings?.coins?.my?.position}
+                    </span>
                   </span>
                   <Avatar size={48} src={dbData?.vk?.photo_100} />
                 </div>

@@ -1,1 +1,7 @@
-@import './scheme', './util', './components/index', './views/index'
+@import "./scheme", "./util", "./components/index", "./views/index";
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

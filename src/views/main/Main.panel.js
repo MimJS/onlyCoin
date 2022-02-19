@@ -5,28 +5,30 @@ import {
   PanelHeader,
   PanelHeaderContent,
   PullToRefresh,
-  SimpleCell,
 } from "@vkontakte/vkui";
 import { Icon24DollarCircleOutline } from "@vkontakte/icons";
 import { useSelector } from "react-redux";
-import { getUsersVkData, msToDate, numberFormat } from "../../lib/scripts/util";
+import { getUsersVkData, numberFormat } from "../../lib/scripts/util";
 import {
   Icon28FavoriteOutline,
   Icon28MoneyRequestOutline,
   Icon28MoneySendOutline,
   Icon28GameOutline,
+  Icon28GiftOutline,
 } from "@vkontakte/icons";
 import { useEffect, useState } from "react";
 import { wsQuery } from "../../lib/scripts/ws";
-import { go } from "../../lib/routes";
+import { go, POPOUT_BUYCOINS } from "../../lib/routes";
 import { OperationComponent } from "./Operation.component";
+import { useRouter } from "@happysanta/router";
 
-export const MainPanel = ({ id }) => {
+export const MainPanel = ({ id, changePopout }) => {
   const dbData = useSelector((s) => s.user.db);
   const isLoad = useSelector((s) => s.user.load);
   const [activeInfo, setActiveInfo] = useState(0);
   const [isFetch, setFetch] = useState(false);
   const [usersData, setUsersData] = useState({});
+  const router = useRouter()
   const menu = [
     {
       icon: <Icon28FavoriteOutline width={32} height={32} fill="white" />,
@@ -127,7 +129,7 @@ export const MainPanel = ({ id }) => {
                 fill={"white"}
               />
               <div className="balanceButtons">
-                <Button size="m" stretched mode="secondary">
+                <Button size="m" stretched mode="secondary" onClick={() => router.pushPopup(POPOUT_BUYCOINS)}>
                   Купить
                 </Button>
                 <Button size="m" stretched mode="secondary">
@@ -171,6 +173,11 @@ export const MainPanel = ({ id }) => {
             </div>
           </div>
         </PullToRefresh>
+      ) : null}
+      {activeInfo === 0 && isLoad ? (
+        <div className="giftAds">
+          <Icon28GiftOutline fill="white" width={32} height={32} />
+        </div>
       ) : null}
     </Panel>
   );

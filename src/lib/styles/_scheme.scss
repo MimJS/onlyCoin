@@ -11,7 +11,7 @@ body {
 }
 
 iframe {
-    display: none !important;
+  display: none !important;
 }
 
 * {
@@ -22,9 +22,23 @@ iframe {
   padding: 10px 15px;
 }
 
-body[scheme="bright_light"], body[scheme="client_light"] {
-
+body[scheme="bright_light"],
+body[scheme="client_light"],
+body[scheme="vkcom_light"] {
+  --button_primary_bg: #778ef1;
 }
 
-body[scheme="client_dark"], body[scheme="space_gray"] {
+body[scheme="client_dark"],
+body[scheme="space_gray"],
+body[scheme="vkcom_dark"] {
+  --button_primary_bg: white;
+}
+
+.Button--lvl-primary {
+  border-radius: 20px;
+  background-color: var(--button_primary_bg) !important;
+  .Button__content {
+    font-size: 15px;
+    font-weight: 400;
+  }
 }

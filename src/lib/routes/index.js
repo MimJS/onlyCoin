@@ -18,6 +18,8 @@ export const PANEL_RATING = "panelRating";
 export const PANEL_TRANSFER = "panelTransfer";
 export const PANEL_ERROR = "panelError";
 
+export const POPOUT_BUYCOINS = "popout_buyCoins";
+
 const routes = {
   [PAGE_MAIN]: new Page(PANEL_MAIN, VIEW_MAIN),
   [PAGE_RATING]: new Page(PANEL_RATING, VIEW_RATING),
