@@ -1,19 +1,32 @@
 import { Alert, Button, FormItem, Input, SimpleCell } from "@vkontakte/vkui";
 import { useRouter } from "@happysanta/router";
 import { Icon28MoneyRequestOutline } from "@vkontakte/icons";
-import { POPOUT_BUYCOINS } from "../../lib/routes";
+import { POPOUT_SELLCOINS } from "../../lib/routes";
 import { numberFormat, isNumeric, formatNumber } from "../../lib/scripts/util";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
+import { wsQuery } from "../../lib/scripts/ws";
 
-export const BuyCoinsPopout = () => {
+export const SellCoinsPopout = () => {
   const router = useRouter();
   const courseInfo = useSelector((s) => s.game?.information?.course);
+  const dispatch = useDispatch();
+  const dbData = useSelector((s) => s.user.db);
+  const storeStatus = useSelector((s) => s.user.storeStatus);
   const [replenishAmount, setReplenishAmount] = useState("");
   const [isError, setError] = useState(false);
-  const [disableButton, setDisableButton] = useState(true)
+  const [disableButton, setDisableButton] = useState(true);
   return (
-    <Alert onClose={() => router.popPage()} className={POPOUT_BUYCOINS}>
+    <Alert
+      onClose={() => {
+        dispatch({
+          type: "setStoreStatus",
+          payload: { status: true },
+        });
+        router.popPage();
+      }}
+      className={POPOUT_SELLCOINS}
+    >
       <SimpleCell
         disabled
         before={
@@ -21,25 +34,31 @@ export const BuyCoinsPopout = () => {
             <Icon28MoneyRequestOutline fill={"white"} />
           </div>
         }
-        description={`1 OC = ${courseInfo.buy} VKC`}
+        description={`1 OC = ${courseInfo.sell} VKC`}
       >
-        Покупка OnlyCoin
+        Продажа OnlyCoin
       </SimpleCell>
       <div className="form">
-        <FormItem top="Сумма в OnlyCoin">
+        <FormItem top="Сумма в VKCoin">
           <Input
             readOnly
             value={numberFormat(
-              Number((replenishAmount / courseInfo.buy) * 1000),
+              Number(replenishAmount * courseInfo.sell * 1000),
               true
             )}
             disabled
           />
         </FormItem>
         <FormItem
-          top="Сумма в VKCoin"
-          bottom={isError ? "Невалидное значение" : null}
-          status={isError ? "error" : null}
+          top="Сумма в OnlyCoin"
+          bottom={
+            storeStatus?.status == false
+              ? storeStatus?.error_msg
+              : isError
+              ? "Невалидное значение"
+              : null
+          }
+          status={isError || storeStatus?.status == false ? "error" : null}
         >
           <div className="inputs">
             <Input
@@ -59,6 +78,9 @@ export const BuyCoinsPopout = () => {
                 if (Number(v) > 100000000000) {
                   v = "100000000000";
                 }
+                if (Number(v) > Number(dbData?.coins / 1000)) {
+                  v = String(Number(dbData?.coins / 1000));
+                }
                 if (v < 0) {
                   v = "";
                 }
@@ -76,14 +98,19 @@ export const BuyCoinsPopout = () => {
                 }
                 if (
                   v.length === 0 ||
-                  Number(v / courseInfo.buy) < 0.001 ||
-                  Number(v) === 0
+                  Number(v * courseInfo.buy) < 0.001 ||
+                  Number(v) === 0 ||
+                  Number(v) > Number(dbData?.coins / 1000)
                 ) {
                   setError(true);
-                  setDisableButton(true)
+                  setDisableButton(true);
                 } else {
+                  dispatch({
+                    type: "setStoreStatus",
+                    payload: { status: true },
+                  });
                   setError(false);
-                  setDisableButton(false)
+                  setDisableButton(false);
                 }
                 return setReplenishAmount(v);
               }}
@@ -95,11 +122,10 @@ export const BuyCoinsPopout = () => {
             size="m"
             disabled={disableButton}
             onClick={() => {
-              window.open(`https://vk.com/coin#x650454742_${replenishAmount * 1000}_1`);
-              router.popPage()
+              wsQuery("store:sell", { amount: replenishAmount * 1000 });
             }}
           >
-            Пополнить
+            Продать
           </Button>
         </FormItem>
       </div>

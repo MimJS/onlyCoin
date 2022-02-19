@@ -19,6 +19,8 @@ export const PANEL_TRANSFER = "panelTransfer";
 export const PANEL_ERROR = "panelError";
 
 export const POPOUT_BUYCOINS = "popout_buyCoins";
+export const POPOUT_SELLCOINS = "popout_sellCoins";
+export const POPOUT_STATUSCOINS = "popout_statusCoins";
 
 const routes = {
   [PAGE_MAIN]: new Page(PANEL_MAIN, VIEW_MAIN),

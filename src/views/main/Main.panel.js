@@ -18,7 +18,7 @@ import {
 } from "@vkontakte/icons";
 import { useEffect, useState } from "react";
 import { wsQuery } from "../../lib/scripts/ws";
-import { go, POPOUT_BUYCOINS } from "../../lib/routes";
+import { go, POPOUT_BUYCOINS, POPOUT_SELLCOINS } from "../../lib/routes";
 import { OperationComponent } from "./Operation.component";
 import { useRouter } from "@happysanta/router";
 
@@ -28,7 +28,7 @@ export const MainPanel = ({ id, changePopout }) => {
   const [activeInfo, setActiveInfo] = useState(0);
   const [isFetch, setFetch] = useState(false);
   const [usersData, setUsersData] = useState({});
-  const router = useRouter()
+  const router = useRouter();
   const menu = [
     {
       icon: <Icon28FavoriteOutline width={32} height={32} fill="white" />,
@@ -122,17 +122,22 @@ export const MainPanel = ({ id, changePopout }) => {
         <PullToRefresh isFetching={isFetch} onRefresh={() => freshFunc()}>
           <div className="panel--in">
             <div className="balanceBlock">
-              <span className="balance">{numberFormat(dbData?.coins)}</span>
-              <Icon24DollarCircleOutline
-                width={35}
-                height={35}
-                fill={"white"}
-              />
+              <span className="balance">{numberFormat(dbData?.coins)} OC</span>
               <div className="balanceButtons">
-                <Button size="m" stretched mode="secondary" onClick={() => router.pushPopup(POPOUT_BUYCOINS)}>
+                <Button
+                  size="m"
+                  stretched
+                  mode="secondary"
+                  onClick={() => router.pushPopup(POPOUT_BUYCOINS)}
+                >
                   Купить
                 </Button>
-                <Button size="m" stretched mode="secondary">
+                <Button
+                  size="m"
+                  stretched
+                  mode="secondary"
+                  onClick={() => router.pushPopup(POPOUT_SELLCOINS)}
+                >
                   Продать
                 </Button>
               </div>
@@ -163,7 +168,14 @@ export const MainPanel = ({ id, changePopout }) => {
               <div className="infoBlock--in">
                 {activeInfo === 0 ? (
                   <>
-                    <span>OnlyCoin - тут мини инфа</span>
+                    <span className="info">
+                      OnlyCoin - развлекательная игровая валюта подкрепленная
+                      фиксированным курсом за VkCoin.
+                    </span>
+                    <span className="info">
+                      Валюту можно покупать, продавать за VkCoin, а так же
+                      переводить другим игрокам или сообществам.
+                    </span>
                   </>
                 ) : null}
                 {activeInfo === 1 ? (

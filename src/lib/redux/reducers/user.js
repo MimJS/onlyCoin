@@ -3,6 +3,9 @@ const init = {
   load: false,
   errorMessage: null,
   vkToken: null,
+  storeStatus: {
+    status: true,
+  },
 };
 
 export const userReducer = (state = init, action) => {
@@ -15,6 +18,8 @@ export const userReducer = (state = init, action) => {
       return { ...state, errorMessage: action.payload };
     case "setVkToken":
       return { ...state, vkToken: action.payload };
+    case "setStoreStatus":
+      return { ...state, storeStatus: action.payload };
     default:
       return state;
   }

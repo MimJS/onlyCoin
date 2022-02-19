@@ -146,14 +146,7 @@ export const RatingPanel = ({ id }) => {
                         </div>
                       }
                       description={
-                        <span className="sum">
-                          {numberFormat(v.coins)}{" "}
-                          <Icon24DollarCircleOutline
-                            fill="var(--text_primary)"
-                            width={14}
-                            height={14}
-                          />
-                        </span>
+                        <span className="sum">{numberFormat(v.coins)} OC</span>
                       }
                     >
                       {haveData
@@ -189,14 +182,7 @@ export const RatingPanel = ({ id }) => {
                         </div>
                       }
                       description={
-                        <span className="sum">
-                          {numberFormat(v.coins)}{" "}
-                          <Icon24DollarCircleOutline
-                            fill="var(--text_primary)"
-                            width={14}
-                            height={14}
-                          />
-                        </span>
+                        <span className="sum">{numberFormat(v.coins)} OC</span>
                       }
                     >
                       {haveData ? `${data.name}` : `@public${Math.abs(v.id)}`}
@@ -230,12 +216,7 @@ export const RatingPanel = ({ id }) => {
               }
               description={
                 <span className="sum">
-                  {numberFormat(ratings?.coins?.my?.coins)}{" "}
-                  <Icon24DollarCircleOutline
-                    fill="var(--text_primary)"
-                    width={14}
-                    height={14}
-                  />
+                  {numberFormat(ratings?.coins?.my?.coins)} OC
                 </span>
               }
             >

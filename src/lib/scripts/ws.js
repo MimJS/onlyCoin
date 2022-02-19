@@ -1,5 +1,5 @@
 import { store } from "../redux";
-import { PAGE_ERROR, PAGE_MAIN, router } from "../routes";
+import { PAGE_ERROR, PAGE_MAIN, POPOUT_STATUSCOINS, router } from "../routes";
 
 let ws = null;
 let isConnected = false;
@@ -80,6 +80,24 @@ const wsListener = () => {
             store.dispatch({
               type: "setDbData",
               payload: args,
+            });
+            break;
+          default:
+            return;
+        }
+        break;
+      case "store":
+        switch (action) {
+          case "success":
+            router.replacePopup(POPOUT_STATUSCOINS);
+            break;
+          case "false":
+            store.dispatch({
+              type: "setStoreStatus",
+              payload: {
+                status: false,
+                error_msg: args.error_public,
+              },
             });
             break;
           default:
