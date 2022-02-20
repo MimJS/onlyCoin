@@ -1,0 +1,90 @@
+#panelSeeMerchant {
+  .panel--in {
+    .Button {
+      border-radius: 8px;
+    }
+    .FormStatus {
+      &:not(:first-child) {
+        margin-top: 10px;
+      }
+      .createToken {
+        margin-top: 10px;
+        .Button__content {
+          font-size: 14px;
+        }
+      }
+      .token {
+        display: table;
+        padding: 5px 10px;
+        background-color: #ffffff;
+        background-image: linear-gradient(315deg, #b8d8f6 0%, #778ef1 74%);
+        border-radius: 4px;
+        color: #fff;
+        -ms-user-select: all !important;
+        user-select: all !important;
+        -webkit-user-select: all !important;
+        -moz-user-select: all !important;
+        cursor: text;
+        margin-bottom: 5px;
+      }
+      .vkuiCaption {
+        color: var(--text_primary);
+      }
+      .merchantId {
+        -ms-user-select: all !important;
+        user-select: all !important;
+        -webkit-user-select: all !important;
+        -moz-user-select: all !important;
+        cursor: text;
+      }
+    }
+    .deleteMerchant {
+      margin-top: 10px;
+    }
+  }
+}
+
+.popout_updateToken {
+  .Alert {
+    width: 370px;
+    .vkuiAlert__content {
+      padding: 20px 25px !important;
+      text-align: left !important;
+    }
+    .vkuiAlert__text {
+      font-size: 14px;
+    }
+    .Button {
+      border-radius: 8px;
+      .Button__content {
+        color: white;
+      }
+      &:first-child {
+        background-color: #e64646 !important;
+      }
+    }
+  }
+}
+
+.popout_deleteMerchant {
+    .Alert {
+      width: 370px;
+      .vkuiAlert__content {
+        padding: 20px 25px !important;
+        text-align: left !important;
+      }
+      .vkuiAlert__text {
+        font-size: 14px;
+      }
+      .Button {
+        border-radius: 8px;
+        .Button__content {
+          color: white;
+        }
+        &:first-child {
+          background-color: #e64646 !important;
+        }
+      }
+    }
+  }
+  

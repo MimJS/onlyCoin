@@ -104,6 +104,24 @@ const wsListener = () => {
             return;
         }
         break;
+      case "transfers":
+        switch (action) {
+          case "friends":
+            store.dispatch({
+              type: "setFriendsData",
+              payload: args.items,
+            });
+            break;
+          case "friendsGetById":
+            store.dispatch({
+              type: "setGlobalTransferData",
+              payload: args.items,
+            });
+            break;
+          default:
+            return;
+        }
+        break;
       case "developers":
         switch (action) {
           case "get":
@@ -111,6 +129,38 @@ const wsListener = () => {
               type: "setMyMerchant",
               payload: args,
             });
+            break;
+          case "create":
+            store.dispatch({
+              type: "setErrorCreateMerchant",
+              payload: args,
+            });
+            break;
+          case "getById":
+            store.dispatch({
+              type: "setMerchantData",
+              payload: args.response[0],
+            });
+            break;
+          case "access_token":
+            store.dispatch({
+              type: "setTokenData",
+              payload: {
+                token: args.access_token,
+                hide: false,
+              },
+            });
+            break;
+          case "delete":
+            if (router.getCurrentLocation().route.pageId == "/seemerchant") {
+              if (
+                Object.keys(router.getCurrentLocation().route.params).length > 0
+              ) {
+                router.popPageTo(-2);
+              } else {
+                router.popPage();
+              }
+            }
             break;
           default:
             return;
@@ -175,8 +225,4 @@ export const getWs = () => {
     status: isConnected ? ws.readyState : 5,
     client: ws,
   };
-};
-
-window.test = () => {
-  return router.history.getCurrentIndex();
 };

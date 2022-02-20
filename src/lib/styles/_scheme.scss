@@ -34,11 +34,14 @@ body[scheme="vkcom_dark"] {
   --button_primary_bg: white;
 }
 
-.Button--lvl-primary {
-  border-radius: 20px;
+.Button--clr-accent {
   background-color: var(--button_primary_bg) !important;
+}
+
+.Button {
+  border-radius: 8px;
   .Button__content {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 400;
   }
 }

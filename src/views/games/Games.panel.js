@@ -90,7 +90,7 @@ export const GamesPanel = ({ id }) => {
                           size="s"
                           mode="primary"
                           onClick={() => {
-                            if (v.open_link.indexOf("https://vk.") >= 0) {
+                            if (v.open_link.indexOf("vk.") >= 0) {
                               window.open(v.open_link);
                             }
                           }}

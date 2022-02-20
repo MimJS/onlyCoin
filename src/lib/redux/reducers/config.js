@@ -1,6 +1,6 @@
 const init = {
-  xhr_url: "https://c41a-83-243-91-59.ngrok.io/capi.php",
-  ws_url: "wss://c41a-83-243-91-59.ngrok.io/websocket.php",
+  xhr_url: "https://coins.vkonlyplay.ru/capi.php",
+  ws_url: "wss://coins.vkonlyplay.ru/websocket.php",
   access_token: null,
   app_id: 8083387
 };

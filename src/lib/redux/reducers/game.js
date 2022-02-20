@@ -1,6 +1,9 @@
 const init = {
   games: {},
   myMerchant: {},
+  errorCreateMerchant: {},
+  merchantData: {},
+  tokenData: {},
 };
 
 export const gameReducer = (state = init, action) => {
@@ -13,6 +16,12 @@ export const gameReducer = (state = init, action) => {
       return { ...state, games: action.payload };
     case "setMyMerchant":
       return { ...state, myMerchant: action.payload };
+    case "setErrorCreateMerchant":
+      return { ...state, errorCreateMerchant: action.payload };
+    case "setMerchantData":
+      return { ...state, merchantData: action.payload };
+    case "setTokenData":
+      return { ...state, tokenData: action.payload };
     default:
       return state;
   }

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { store } from "../redux";
 import { router, PAGE_ERROR } from "../routes";
-import { initWS } from "./ws";
+import { initWS, wsQuery } from "./ws";
 import bridge from "@vkontakte/vk-bridge";
 
 export const numberFormat = (num, around = false) => {
@@ -93,6 +93,41 @@ export const createVkToken = async () => {
   return null;
 };
 
+export const getFriendsList = async () => {
+  const state = await store.getState();
+  let token = state.user.vkToken;
+  let friendsData = {
+    ids: [],
+    data: {},
+  };
+  if (!state.user.vkToken) {
+    token = await createVkToken();
+  }
+  if (!token) {
+    return friendsData;
+  }
+  const result = await bridge.send("VKWebAppCallAPIMethod", {
+    method: "friends.get",
+    request_id: "onlyCoin_request_friends.get",
+    params: {
+      user_id: state.user.db.id,
+      fields: "photo_100",
+      count: 100,
+      v: "5.131",
+      access_token: token,
+    },
+  });
+  if (result.response) {
+    const friendsInfo = result.response.items;
+    for (let i = 0; i < friendsInfo.length; i++) {
+      let friendId = friendsInfo[i].id;
+      friendsData.ids.push(friendId);
+      friendsData.data[friendId] = friendsInfo[i];
+    }
+  }
+  return friendsData;
+};
+
 export const getGroupsVkData = async (ids) => {
   const state = await store.getState();
   let groupsData = {};
@@ -178,4 +213,24 @@ export const formatNumber = (
   }
 
   return s.join(dec);
+};
+
+export const showAds = async () => {
+  const res = await bridge
+    .send("VKWebAppShowNativeAds", {
+      ad_format: "reward",
+      use_waterfall: true,
+    })
+    .then((data) => {
+      if (data.result) {
+        wsQuery("game:ads", { status: data.result });
+        return true;
+      } else {
+        return false;
+      }
+    })
+    .catch((error) => {
+      return false;
+    });
+  return res;
 };

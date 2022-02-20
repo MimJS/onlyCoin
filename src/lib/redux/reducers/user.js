@@ -6,6 +6,11 @@ const init = {
   storeStatus: {
     status: true,
   },
+  transferStatus: {
+    status: true,
+  },
+  friendsData: [],
+  globalTransferData: [],
 };
 
 export const userReducer = (state = init, action) => {
@@ -20,6 +25,12 @@ export const userReducer = (state = init, action) => {
       return { ...state, vkToken: action.payload };
     case "setStoreStatus":
       return { ...state, storeStatus: action.payload };
+    case "setFriendsData":
+      return { ...state, friendsData: action.payload };
+    case "setGlobalTransferData":
+      return { ...state, globalTransferData: action.payload };
+    case "setTransferStatus":
+      return { ...state, transferStatus: action.payload };
     default:
       return state;
   }

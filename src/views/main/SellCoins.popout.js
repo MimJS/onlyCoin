@@ -122,7 +122,9 @@ export const SellCoinsPopout = () => {
             size="m"
             disabled={disableButton}
             onClick={() => {
+              setDisableButton(true);
               wsQuery("store:sell", { amount: replenishAmount * 1000 });
+              setDisableButton(false);
             }}
           >
             Продать

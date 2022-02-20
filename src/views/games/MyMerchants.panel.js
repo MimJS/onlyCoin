@@ -17,7 +17,7 @@ import {
 import { useEffect, useState } from "react";
 import { getGroupsVkData, numberFormat } from "../../lib/scripts/util";
 import { wsQuery } from "../../lib/scripts/ws";
-import { PAGE_CREATEMERCHANT } from "../../lib/routes";
+import { PAGE_CREATEMERCHANT, PAGE_SEEMERCHANT } from "../../lib/routes";
 
 export const MyMerchantsPanel = ({ id }) => {
   const router = useRouter();
@@ -51,6 +51,10 @@ export const MyMerchantsPanel = ({ id }) => {
     wsQuery("developers:get");
     setFetch(false);
   };
+  const openMerhant = (id) => {
+    wsQuery("developers:getById", { merchant_id: id });
+    return router.pushPage(PAGE_SEEMERCHANT);
+  };
   return (
     <Panel id={id}>
       <PanelHeader
@@ -75,6 +79,7 @@ export const MyMerchantsPanel = ({ id }) => {
                   const data = merchantsData[Math.abs(v.id)];
                   return (
                     <SimpleCell
+                      key={i}
                       className="merchantCell"
                       before={
                         <Avatar
@@ -82,6 +87,7 @@ export const MyMerchantsPanel = ({ id }) => {
                           src={haveData ? data.photo_100 : null}
                         />
                       }
+                      onClick={() => openMerhant(v.id)}
                       description={`${numberFormat(v.coins)} OC`}
                       hasHover={false}
                       hasActive={false}

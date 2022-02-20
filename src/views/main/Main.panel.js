@@ -5,20 +5,33 @@ import {
   PanelHeader,
   PanelHeaderContent,
   PullToRefresh,
+  Snackbar,
+  Spinner,
 } from "@vkontakte/vkui";
-import { Icon24DollarCircleOutline } from "@vkontakte/icons";
 import { useSelector } from "react-redux";
-import { getUsersVkData, numberFormat } from "../../lib/scripts/util";
+import {
+  getGroupsVkData,
+  getUsersVkData,
+  numberFormat,
+  showAds,
+} from "../../lib/scripts/util";
 import {
   Icon28FavoriteOutline,
   Icon28MoneyRequestOutline,
   Icon28MoneySendOutline,
   Icon28GameOutline,
   Icon28GiftOutline,
+  Icon24ErrorCircleOutline,
+  Icon24GiftOutline,
 } from "@vkontakte/icons";
 import { useEffect, useState } from "react";
 import { wsQuery } from "../../lib/scripts/ws";
-import { go, POPOUT_BUYCOINS, POPOUT_SELLCOINS } from "../../lib/routes";
+import {
+  go,
+  PAGE_TRANSFER,
+  POPOUT_BUYCOINS,
+  POPOUT_SELLCOINS,
+} from "../../lib/routes";
 import { OperationComponent } from "./Operation.component";
 import { useRouter } from "@happysanta/router";
 
@@ -28,6 +41,9 @@ export const MainPanel = ({ id, changePopout }) => {
   const [activeInfo, setActiveInfo] = useState(0);
   const [isFetch, setFetch] = useState(false);
   const [usersData, setUsersData] = useState({});
+  const [groupsData, setGroupsData] = useState({});
+  const [snackBar, setSnackBar] = useState(null);
+  const [hideAdsButton, setHideAdsButton] = useState(false);
   const router = useRouter();
   const menu = [
     {
@@ -42,6 +58,7 @@ export const MainPanel = ({ id, changePopout }) => {
       icon: <Icon28MoneySendOutline width={32} height={32} fill="white" />,
       name: "Перевод",
       action: () => {
+        router.pushPage(PAGE_TRANSFER);
         return;
       },
     },
@@ -49,6 +66,7 @@ export const MainPanel = ({ id, changePopout }) => {
       icon: <Icon28MoneyRequestOutline width={32} height={32} fill="white" />,
       name: "Получить",
       action: () => {
+        router.pushPopup(POPOUT_RECEIVE);
         return;
       },
     },
@@ -62,13 +80,36 @@ export const MainPanel = ({ id, changePopout }) => {
       },
     },
   ];
-
+  const ads = async () => {
+    if (hideAdsButton == true) {
+      return;
+    }
+    setHideAdsButton(true);
+    const res = await showAds();
+    setHideAdsButton(false);
+    if (res == false) {
+      console.log(`createError`);
+      setSnackBar(
+        <Snackbar
+          onClose={() => setSnackBar(null)}
+          before={<Icon24ErrorCircleOutline fill="#dd4a68" />}
+        >
+          Произошла ошибка при показе рекламы
+        </Snackbar>
+      );
+    }
+  };
   useEffect(() => {
-    const sortUserOperation = async (transactions) => {
-      if (!dbData.transactions) {
+    const sortUserOperation = async (transactions, myId) => {
+      if (!transactions) {
         return;
       }
-      console.log(transactions.length);
+      transactions = transactions.filter((e) => {
+        return e.to_id > 0 && e.from_id > 0;
+      });
+      if (transactions.length == 0) {
+        return;
+      }
       let ids = [];
       for (let i = 0; i < transactions.length; i++) {
         let data = transactions[i];
@@ -88,7 +129,37 @@ export const MainPanel = ({ id, changePopout }) => {
       console.log(res);
       setUsersData(res);
     };
-    sortUserOperation(dbData.transactions);
+    const sortGroupsOperation = async (transactions, myId) => {
+      if (!transactions) {
+        return;
+      }
+      transactions = transactions.filter((e) => {
+        return e.to_id < 0 || e.from_id < 0;
+      });
+      if (transactions.length == 0) {
+        return;
+      }
+      let ids = [];
+      for (let i = 0; i < transactions.length; i++) {
+        let data = transactions[i];
+        if (!data.type) {
+          if (data.from_id !== dbData.id) {
+            if (ids.indexOf(Math.abs(data.from_id)) < 0) {
+              ids.push(Math.abs(data.from_id));
+            }
+          } else {
+            if (ids.indexOf(Math.abs(data.to_id)) < 0) {
+              ids.push(Math.abs(data.to_id));
+            }
+          }
+        }
+      }
+      const res = await getGroupsVkData(ids);
+      console.log(res);
+      setGroupsData(res);
+    };
+    sortGroupsOperation(dbData.transactions, dbData.id);
+    sortUserOperation(dbData.transactions, dbData.id);
   }, [dbData]);
 
   const setInfo = (value) => {
@@ -180,7 +251,11 @@ export const MainPanel = ({ id, changePopout }) => {
                   </>
                 ) : null}
                 {activeInfo === 1 ? (
-                  <OperationComponent dbData={dbData} usersData={usersData} />
+                  <OperationComponent
+                    dbData={dbData}
+                    usersData={usersData}
+                    groupsData={groupsData}
+                  />
                 ) : null}
               </div>
             </div>
@@ -188,10 +263,15 @@ export const MainPanel = ({ id, changePopout }) => {
         </PullToRefresh>
       ) : null}
       {activeInfo === 0 && isLoad ? (
-        <div className="giftAds">
-          <Icon28GiftOutline fill="white" width={32} height={32} />
+        <div className="giftAds" onClick={() => ads()}>
+          {!hideAdsButton ? (
+            <Icon28GiftOutline fill="white" width={32} height={32} />
+          ) : (
+            <Spinner size="regular" />
+          )}
         </div>
       ) : null}
+      {snackBar}
     </Panel>
   );
 };

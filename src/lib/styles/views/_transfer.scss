@@ -1,0 +1,66 @@
+#panelTransfer {
+  .panel--in {
+    padding-top: 62px;
+    .info {
+      display: inline-block;
+      font-size: 14px;
+      color: var(--text_secondary);
+      width: 100%;
+      text-align: center;
+      margin-top: 15px;
+    }
+    .transferCell {
+      padding: 0px;
+    }
+  }
+}
+
+.popout_sendCoins {
+  .Alert {
+    width: 320px;
+    .vkuiAlert__content {
+      padding: 12px 0px;
+      .SimpleCell {
+        .marketAvatar {
+          width: 48px;
+          height: 48px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: #ffffff;
+          background-image: linear-gradient(315deg, #b8d8f6 0%, #778ef1 74%);
+          border-radius: 50%;
+          margin: 6px 12px 6px 0;
+        }
+        .SimpleCell__description {
+          text-align: left;
+        }
+      }
+      .form {
+        .FormItem {
+          &:not(:first-child) {
+            padding-top: 0px;
+          }
+          &:last-child {
+            display: flex;
+            justify-content: center;
+            .Button {
+              padding: 0 30px;
+            }
+          }
+          &:first-child {
+            .Input {
+              opacity: 1;
+              .Input__el {
+                opacity: 1;
+              }
+            }
+          }
+        }
+      }
+    }
+    .vkuiAlert__actions {
+      padding: 0px !important;
+    }
+  }
+}

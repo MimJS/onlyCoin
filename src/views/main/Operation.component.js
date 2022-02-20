@@ -1,12 +1,12 @@
 import {
-  Icon24DollarCircleOutline,
+  Icon28GiftOutline,
   Icon28MoneyRequestOutline,
   Icon28MoneySendOutline,
 } from "@vkontakte/icons";
 import { SimpleCell, Avatar } from "@vkontakte/vkui";
 import { msToDate, numberFormat } from "../../lib/scripts/util";
 
-export const OperationComponent = ({ dbData, usersData }) => {
+export const OperationComponent = ({ dbData, usersData, groupsData }) => {
   return (
     <>
       {dbData.transactions.length == 0 ? (
@@ -41,6 +41,32 @@ export const OperationComponent = ({ dbData, usersData }) => {
                 </SimpleCell>
               );
             }
+            if (v.type === "ads") {
+              return (
+                <SimpleCell
+                  key={i}
+                  className="paymentBlock"
+                  before={
+                    <div className="marketAvatar">
+                      <Icon28GiftOutline fill={"white"} />
+                    </div>
+                  }
+                  hasHover={false}
+                  hasActive={false}
+                  disabled
+                  description={
+                    <span className="sum plus">
+                      + {numberFormat(v.amount)} OC
+                    </span>
+                  }
+                  after={
+                    <span className="date">{msToDate(v.create_date)}</span>
+                  }
+                >
+                  Бонус за рекламу
+                </SimpleCell>
+              );
+            }
             if (v.type === "buy") {
               return (
                 <SimpleCell
@@ -70,17 +96,23 @@ export const OperationComponent = ({ dbData, usersData }) => {
           }
           if (!v.type) {
             const id = v.from_id === dbData.id ? v.to_id : v.from_id;
-            const haveData = typeof usersData[id] !== "undefined";
-            const data = usersData[id];
+            let data, haveData;
+            if (id > 0) {
+              haveData = typeof usersData[id] !== "undefined";
+              data = usersData[id];
+            } else {
+              haveData = typeof groupsData[Math.abs(id)] !== "undefined";
+              data = groupsData[Math.abs(id)];
+            }
             return (
               <SimpleCell
                 key={i}
                 onClick={() => {
-                  window.open(
-                    `https://vk.com/id${
-                      v.from_id === dbData.id ? v.to_id : v.from_id
-                    }`
-                  );
+                  if (id < 0) {
+                    window.open(`https://vk.com/public${id}`);
+                  } else {
+                    window.open(`https://vk.com/id${id}`);
+                  }
                 }}
                 className="paymentBlock"
                 before={
@@ -100,9 +132,16 @@ export const OperationComponent = ({ dbData, usersData }) => {
                 }
                 after={<span className="date">{msToDate(v.create_date)}</span>}
               >
-                {haveData
-                  ? `${data.first_name} ${data.last_name}`
-                  : `@id${v.from_id === dbData.id ? v.to_id : v.from_id}`}
+                {id > 0 && (
+                  <>
+                    {haveData
+                      ? `${data.first_name} ${data.last_name}`
+                      : `@id${id}`}
+                  </>
+                )}
+                {id < 0 && (
+                  <>{haveData ? data.name : `@public${Math.abs(id)}`}</>
+                )}
               </SimpleCell>
             );
           }
