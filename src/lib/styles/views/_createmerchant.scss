@@ -1,0 +1,26 @@
+#panelCreateMerchant {
+  .panel--in {
+    .aboutMerchant {
+      .code {
+        margin-top: 5px;
+        display: table;
+        padding: 5px 10px;
+        background-color: #ffffff;
+        background-image: linear-gradient(315deg, #b8d8f6 0%, #778ef1 74%);
+        border-radius: 4px;
+        color: #fff;
+        -ms-user-select: all !important;
+        user-select: all !important;
+        -webkit-user-select: all !important;
+        -moz-user-select: all !important;
+        cursor: text;
+      }
+    }
+    .FormItem {
+        padding: 12px 0;
+        .createMerchant {
+            border-radius: 8px;
+        }
+    }
+  }
+}

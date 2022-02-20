@@ -1,7 +1,6 @@
 import {
   Panel,
   PanelHeader,
-  Button,
   SimpleCell,
   Avatar,
   PanelHeaderBack,
@@ -18,6 +17,7 @@ import {
 import { useEffect, useState } from "react";
 import { getGroupsVkData, numberFormat } from "../../lib/scripts/util";
 import { wsQuery } from "../../lib/scripts/ws";
+import { PAGE_CREATEMERCHANT } from "../../lib/routes";
 
 export const MyMerchantsPanel = ({ id }) => {
   const router = useRouter();
@@ -91,17 +91,27 @@ export const MyMerchantsPanel = ({ id }) => {
                   );
                 })
               : null}
-            {!load && merchants.count == 0 ? <span className="info">Мерчантов нет</span> : null}
+            {!load && merchants.count == 0 ? (
+              <span className="info">Мерчантов нет</span>
+            ) : null}
           </div>
 
           <div className="toolList">
-            <div className="toolBlock">
+            <div
+              className="toolBlock"
+              onClick={() => {
+                router.pushPage(PAGE_CREATEMERCHANT);
+              }}
+            >
               <Icon20AddCircleFillBlue width={24} height={24} />
               <span className="text">Создать мерчант</span>
             </div>
-            <div className="toolBlock" onClick={() => {
-                window.open('https://github.com/sanyok12345/vkonlyplay-api')
-            }}>
+            <div
+              className="toolBlock"
+              onClick={() => {
+                window.open("https://github.com/sanyok12345/vkonlyplay-api");
+              }}
+            >
               <Icon20QuestionCircleFillViolet width={24} height={24} />
               <span className="text">Документация</span>
             </div>

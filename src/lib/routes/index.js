@@ -9,6 +9,7 @@ export const PAGE_TRANSFER = "/transfer";
 export const PAGE_ERROR = "/error";
 export const PAGE_GAMES = "/games";
 export const PAGE_MYMERCHANT = "/mymerchant";
+export const PAGE_CREATEMERCHANT = "/createmerchant";
 
 export const VIEW_MAIN = "viewMain";
 export const VIEW_RATING = "viewRating";
@@ -22,6 +23,7 @@ export const PANEL_TRANSFER = "panelTransfer";
 export const PANEL_ERROR = "panelError";
 export const PANEL_GAMES = "panelGames";
 export const PANEL_MYMERCHANT = "panelMyMerchant";
+export const PANEL_CREATEMERCHANT = "panelCreateMerchant";
 
 export const POPOUT_BUYCOINS = "popout_buyCoins";
 export const POPOUT_SELLCOINS = "popout_sellCoins";
@@ -34,6 +36,7 @@ const routes = {
   [PAGE_ERROR]: new Page(PANEL_ERROR, VIEW_ERROR),
   [PAGE_GAMES]: new Page(PANEL_GAMES, VIEW_GAMES),
   [PAGE_MYMERCHANT]: new Page(PANEL_MYMERCHANT, VIEW_GAMES),
+  [PAGE_CREATEMERCHANT]: new Page(PANEL_CREATEMERCHANT, VIEW_GAMES),
 };
 
 export const router = new Router(routes);
