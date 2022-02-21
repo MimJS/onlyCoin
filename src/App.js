@@ -38,9 +38,7 @@ const App = () => {
     }
     fetchData();
   }, []);
-
-  console.log(window.location);
-
+  
   return (
     <AdaptivityProvider hasMouse={false}>
       <AppRoot>

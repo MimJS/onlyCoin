@@ -48,13 +48,11 @@ export const TransferPanel = ({ id }) => {
       } else {
         setLoad(false);
       }
-      console.log(res);
     };
     getFriendsData();
   }, []);
   useEffect(() => {
     const getSearchData = (searchValue) => {
-      console.log("take");
       setSearchData({ ids: [], data: {}, isFriend: true });
       let value = String(searchValue).toLowerCase();
       if (value.indexOf("vk.com/") != -1) {
@@ -74,19 +72,15 @@ export const TransferPanel = ({ id }) => {
       } else {
         let obj = tempData.data;
         if (Object.keys(obj).length == 0) {
-          console.log(`here`);
           setSearchData({ ids: [], data: {}, isFriend: true });
           return setLoad(false);
         }
         let filter = Object.entries(obj).filter((v) => {
           const name = (v[1].first_name + " " + v[1].last_name).toLowerCase();
-          console.log(name);
-          console.log(value);
+
           return name.startsWith(value);
         });
         if (filter.length == 0) {
-          console.log(`here2`);
-          console.log(filter);
           setSearchData({ ids: [], data: {}, isFriend: true });
           return setLoad(false);
         } else {
@@ -119,14 +113,13 @@ export const TransferPanel = ({ id }) => {
       if (friendsData.length == 0) {
         return;
       } else {
-        console.log(friendsData);
         let tempObj = { ...tempData.data };
         for (let i = 0; i < friendsData.length; i++) {
           if (typeof tempObj[friendsData[i].id] != "undefined") {
             tempObj[friendsData[i].id].coins = friendsData[i].coins;
           }
         }
-        console.log(tempObj);
+
         setTempData({ ...tempData, data: tempObj });
         setLoad(false);
       }
@@ -143,12 +136,11 @@ export const TransferPanel = ({ id }) => {
         });
         return;
       } else {
-        console.log(globalTransferData);
         let tempObj = {};
-        console.log(globalTransferData[0].id);
+
         tempObj = await getUsersVkData([globalTransferData[0].id]);
         tempObj[globalTransferData[0].id].coins = globalTransferData[0].coins;
-        console.log(tempObj);
+
         let ids = [globalTransferData[0].id];
         setSearchData({
           ids: ids,
@@ -224,10 +216,9 @@ export const TransferPanel = ({ id }) => {
             {searchValue.length > 0
               ? searchData.ids.length > 0
                 ? searchData.ids.map((v, i) => {
-                    console.log(v);
                     const haveData = typeof searchData.data[v] != "undefined";
                     const data = searchData.data[v];
-                    console.log(searchData);
+
                     return (
                       <SimpleCell
                         key={i}

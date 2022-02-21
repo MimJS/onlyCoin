@@ -93,7 +93,6 @@ export const MainPanel = ({ id, changePopout }) => {
     const res = await showAds();
     setHideAdsButton(false);
     if (res == false) {
-      console.log(`createError`);
       setSnackBar(
         <Snackbar
           onClose={() => setSnackBar(null)}
@@ -131,7 +130,7 @@ export const MainPanel = ({ id, changePopout }) => {
         }
       }
       const res = await getUsersVkData(ids);
-      console.log(res);
+
       setUsersData(res);
     };
     const sortGroupsOperation = async (transactions, myId) => {
@@ -160,14 +159,12 @@ export const MainPanel = ({ id, changePopout }) => {
         }
       }
       const res = await getGroupsVkData(ids);
-      console.log(res);
       setGroupsData(res);
     };
     const checkTransferUrl = async () => {
-      console.log(location);
       if (params[0]) {
         let [id, sum, payload, isLock] = params[0].split("_");
-        console.log(id, sum, payload, isLock);
+
         id = Number(id);
         if (isNaN(id)) {
           return router.replacePage(PAGE_MAIN);
@@ -177,7 +174,7 @@ export const MainPanel = ({ id, changePopout }) => {
           id > 0
             ? await getUsersVkData([id])
             : await getGroupsVkData([Math.abs(id)]);
-        console.log(res);
+
         let receiverData =
           Object.keys(res).length > 0 ? res[Math.abs(id)] : { id: id };
         let paramsData = {
@@ -202,7 +199,6 @@ export const MainPanel = ({ id, changePopout }) => {
         });
         router.replacePage(PAGE_MAIN);
         wsQuery("transfers:prepare", { to_id: id });
-        console.log("transfer url");
       } else {
         router.replacePage(PAGE_MAIN);
       }

@@ -14,7 +14,7 @@ let isConnected = false;
 
 export const initWS = () => {
   const state = store.getState();
-  console.log("init");
+
   if (ws && isConnected) {
     return;
   } else {
@@ -39,13 +39,11 @@ const wsListener = () => {
   ws.onclose = function close(e) {
     const innerIndex = router.history.getCurrentIndex();
     if (e.wasClean) {
-      console.log(e.code, e.reason);
     } else {
       store.dispatch({
         type: "setErrorMessage",
         payload: "Разорвано соединение с сервером",
       });
-      console.log(e);
     }
     store.dispatch({
       type: "setLoad",
@@ -66,15 +64,14 @@ const wsListener = () => {
       payload: "Ошибка подключения",
     });
     router.pushPage(PAGE_ERROR);
-    console.log(e);
   };
 
   ws.onmessage = function message(msg) {
     msg = JSON.parse(msg.data);
     let args = msg[1];
-    console.log(msg);
+
     const [type, action] = msg[0].split(":");
-    console.log(type, action);
+
     switch (type) {
       case "players":
         switch (action) {
@@ -128,7 +125,7 @@ const wsListener = () => {
             break;
           case "prepare":
             const transferData = store.getState().user.transferUrlData;
-            console.log(transferData);
+
             router.pushPage(PAGE_TRANSFER);
             router.pushPopup(POPOUT_SENDCOINS, transferData);
             break;

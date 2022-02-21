@@ -43,7 +43,7 @@ export const SuccessTransferPopout = () => {
           }
         }
       }
-      console.log(tempObj);
+     
       setTempData(tempObj);
     };
     if (data) {

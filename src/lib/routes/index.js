@@ -57,7 +57,6 @@ export const go = (page) => {
 
 export const returnToMainScreen = () => {
   const innerIndex = router.history.getCurrentIndex();
-  console.log(innerIndex);
   router.popPageTo(-Number(innerIndex + 1), {});
   return;
 };

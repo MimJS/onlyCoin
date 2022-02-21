@@ -47,7 +47,6 @@ export const RatingPanel = ({ id }) => {
   };
   useEffect(() => {
     const getData = async (topType, ratings) => {
-      console.log(ratings);
       if (!ratings) {
         return;
       }
@@ -64,7 +63,7 @@ export const RatingPanel = ({ id }) => {
           }
         }
         const res = await getUsersVkData(ids);
-        console.log(res);
+
         setTempUserData(res);
         setLoad(false);
       }
@@ -81,7 +80,7 @@ export const RatingPanel = ({ id }) => {
           }
         }
         const res = await getGroupsVkData(ids);
-        console.log(res);
+
         setTempMerchantData(res);
         setLoad(false);
       }
