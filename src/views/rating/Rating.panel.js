@@ -52,6 +52,9 @@ export const RatingPanel = ({ id }) => {
         return;
       }
       if (topType === 0) {
+        if (ratings.coins.items.length == 0) {
+          return setLoad(false);
+        }
         let ids = [];
         const rating = ratings.coins.items;
         for (let i = 0; i < rating.length; i++) {
@@ -66,6 +69,9 @@ export const RatingPanel = ({ id }) => {
         setLoad(false);
       }
       if (topType === 1) {
+        if (ratings.merchants.items.length == 0) {
+          return setLoad(false);
+        }
         let ids = [];
         const rating = ratings.merchants.items;
         for (let i = 0; i < rating.length; i++) {
@@ -157,39 +163,49 @@ export const RatingPanel = ({ id }) => {
                 })
               : null}
             {activeInfo === 1
-              ? ratings?.merchants?.items.map((v, i) => {
-                  const haveData =
-                    typeof tempMerchantData[Math.abs(v.id)] !== "undefined";
-                  const data = tempMerchantData[Math.abs(v.id)];
-                  return (
-                    <SimpleCell
-                      key={i}
-                      className={"ratingCell"}
-                      hasHover={false}
-                      hasActive={false}
-                      onClick={() => {
-                        window.open(`https://vk.com/public${Math.abs(v.id)}`);
-                      }}
-                      before={
-                        <div className="position">
-                          <span className="pos">
-                            <span>{i + 1}</span>
+              ? ratings?.merchants?.items.length > 0
+                ? ratings?.merchants?.items.map((v, i) => {
+                    const haveData =
+                      typeof tempMerchantData[Math.abs(v.id)] !== "undefined";
+                    const data = tempMerchantData[Math.abs(v.id)];
+                    return (
+                      <SimpleCell
+                        key={i}
+                        className={"ratingCell"}
+                        hasHover={false}
+                        hasActive={false}
+                        onClick={() => {
+                          window.open(`https://vk.com/public${Math.abs(v.id)}`);
+                        }}
+                        before={
+                          <div className="position">
+                            <span className="pos">
+                              <span>{i + 1}</span>
+                            </span>
+                            <Avatar
+                              size={48}
+                              src={haveData ? data.photo_100 : null}
+                            />
+                          </div>
+                        }
+                        description={
+                          <span className="sum">
+                            {numberFormat(v.coins)} OC
                           </span>
-                          <Avatar
-                            size={48}
-                            src={haveData ? data.photo_100 : null}
-                          />
-                        </div>
-                      }
-                      description={
-                        <span className="sum">{numberFormat(v.coins)} OC</span>
-                      }
-                    >
-                      {haveData ? `${data.name}` : `@public${Math.abs(v.id)}`}
-                    </SimpleCell>
-                  );
-                })
+                        }
+                      >
+                        {haveData ? `${data.name}` : `@public${Math.abs(v.id)}`}
+                      </SimpleCell>
+                    );
+                  })
+                : null
               : null}
+            {activeInfo === 1 && ratings?.merchants?.items.length == 0 ? (
+              <span className="info">Данных нет</span>
+            ) : null}
+            {activeInfo === 0 && ratings?.coins?.items.length == 0 ? (
+              <span className="info">Данных нет</span>
+            ) : null}
           </div>
         </PullToRefresh>
       ) : null}

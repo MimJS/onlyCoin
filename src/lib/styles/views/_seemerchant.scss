@@ -57,6 +57,34 @@
     .Button {
       border-radius: 8px;
       .Button__content {
+        color: var(
+          --button_primary_foreground,
+          var(--vkui--color_text_contrast)
+        );
+      }
+      &:first-child {
+        .vkuiButton__content {
+          color: white !important;
+        }
+        background-color: #e64646 !important;
+      }
+    }
+  }
+}
+
+.popout_deleteMerchant {
+  .Alert {
+    width: 370px;
+    .vkuiAlert__content {
+      padding: 20px 25px !important;
+      text-align: left !important;
+    }
+    .vkuiAlert__text {
+      font-size: 14px;
+    }
+    .Button {
+      border-radius: 8px;
+      .Button__content {
         color: white;
       }
       &:first-child {
@@ -65,26 +93,3 @@
     }
   }
 }
-
-.popout_deleteMerchant {
-    .Alert {
-      width: 370px;
-      .vkuiAlert__content {
-        padding: 20px 25px !important;
-        text-align: left !important;
-      }
-      .vkuiAlert__text {
-        font-size: 14px;
-      }
-      .Button {
-        border-radius: 8px;
-        .Button__content {
-          color: white;
-        }
-        &:first-child {
-          background-color: #e64646 !important;
-        }
-      }
-    }
-  }
-  

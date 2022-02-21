@@ -15,7 +15,7 @@ import {
   VIEW_TRANSFER,
 } from "./lib/routes";
 import { ErrorView } from "./views/error";
-import { getToken, getUserVKData } from "./lib/scripts/util";
+import { getToken, getUserVKData, isAuth } from "./lib/scripts/util";
 import { RatingView } from "./views/rating";
 import { GamesView } from "./views/games";
 import { TransferView } from "./views/transfer";
@@ -38,6 +38,8 @@ const App = () => {
     }
     fetchData();
   }, []);
+
+  console.log(window.location);
 
   return (
     <AdaptivityProvider hasMouse={false}>

@@ -11,27 +11,91 @@
     }
     .transferCell {
       padding: 0px;
+      .SimpleCell__children {
+        font-size: 15px;
+        font-weight: 500;
+      }
     }
   }
 }
 
 .popout_sendCoins {
   .Alert {
-    width: 320px;
+    width: 90% !important;
+    max-width: 400px !important;
     .vkuiAlert__content {
-      padding: 12px 0px;
+      padding: 15px !important;
       .SimpleCell {
-        .marketAvatar {
-          width: 48px;
-          height: 48px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background-color: #ffffff;
-          background-image: linear-gradient(315deg, #b8d8f6 0%, #778ef1 74%);
-          border-radius: 50%;
-          margin: 6px 12px 6px 0;
+        padding-right: 0px;
+        padding-left: 0px;
+        .SimpleCell__description {
+          text-align: left;
         }
+        .vkuiAvatar {
+          margin-top: 0px;
+          margin-bottom: 0px;
+        }
+        .vkuiSimpleCell__main {
+          padding: 0px;
+        }
+        .vkuiSimpleCell__children {
+          font-weight: 500;
+          font-size: 15px;
+        }
+        .SimpleCell__description {
+          margin-top: 2px;
+          font-size: 13px;
+        }
+      }
+      .form {
+        .FormItem {
+          padding-left: 0px;
+          padding-right: 0px;
+          &:not(:first-child) {
+            padding-top: 0px;
+          }
+          &:last-child {
+            display: flex;
+            justify-content: center;
+            padding-bottom: 0px;
+          }
+          &:first-child {
+            .Input {
+              opacity: 1;
+              .Input__el {
+                opacity: 1;
+              }
+            }
+          }
+        }
+      }
+    }
+    .vkuiAlert__actions {
+      padding: 0px !important;
+    }
+  }
+}
+
+.popout_successTransfer {
+  .Alert {
+    width: 90% !important;
+    max-width: 400px !important;
+    .vkuiAlert__content {
+      padding: 15px !important;
+      padding-top: 20px !important;
+      .vkuiPlaceholder__in {
+        padding: 0px;
+        .vkuiPlaceholder__header {
+          font-size: 18px;
+        }
+        .vkuiPlaceholder__text {
+          font-size: 14px;
+        }
+        .vkuiPlaceholder__action {
+          margin-top: 20px;
+        }
+      }
+      .SimpleCell {
         .SimpleCell__description {
           text-align: left;
         }
@@ -44,9 +108,6 @@
           &:last-child {
             display: flex;
             justify-content: center;
-            .Button {
-              padding: 0 30px;
-            }
           }
           &:first-child {
             .Input {

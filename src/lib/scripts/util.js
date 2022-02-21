@@ -1,7 +1,7 @@
 import axios from "axios";
 import { store } from "../redux";
 import { router, PAGE_ERROR } from "../routes";
-import { initWS, wsQuery } from "./ws";
+import { getWs, initWS, wsQuery } from "./ws";
 import bridge from "@vkontakte/vk-bridge";
 
 export const numberFormat = (num, around = false) => {
@@ -233,4 +233,17 @@ export const showAds = async () => {
       return false;
     });
   return res;
+};
+
+export const isAuth = async () => {
+  let result = false;
+  const state = await store.getState();
+  const wsData = await getWs();
+  console.log(Object.keys(state.user.db).length);
+  console.log(wsData);
+  if (Object.keys(state.user.db).length > 0 && wsData.status == 1) {
+    result = true;
+  }
+  console.log(result);
+  return result;
 };

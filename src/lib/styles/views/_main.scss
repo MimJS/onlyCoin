@@ -128,7 +128,12 @@
             .date {
               font-size: 12px;
               color: gray;
+              text-align: right;
             }
+          }
+          .SimpleCell__children {
+            font-weight: 500;
+            font-size: 15px;
           }
         }
       }
@@ -181,6 +186,10 @@
         .SimpleCell__description {
           text-align: left;
         }
+        .SimpleCell__children {
+          font-size: 15px;
+          font-weight: 500;
+        }
       }
       .form {
         .FormItem {
@@ -231,6 +240,10 @@
         .SimpleCell__description {
           text-align: left;
         }
+        .SimpleCell__children {
+          font-size: 15px;
+          font-weight: 500;
+        }
       }
       .form {
         .FormItem {
@@ -280,6 +293,38 @@
               margin-left: 5px;
             }
           }
+        }
+      }
+    }
+    .vkuiAlert__actions {
+      padding: 0px !important;
+    }
+  }
+}
+
+.popout_receive {
+  .vkuiAlert {
+    .vkuiAlert__content {
+      .title {
+        text-align: center;
+        padding: 0 10px;
+        margin-bottom: 15px;
+        display: inline-block;
+        font-size: 13px;
+      }
+      .cellClass-cell-filled {
+        fill: var(--text_primary);
+      }
+      .cellClass-cell-empty {
+        fill: transparent;
+      }
+      .buttonWrapper {
+        padding: 0 10px;
+        text-align: center;
+        .Button {
+          display: inline-block;
+          margin-top: 20px;
+          margin-bottom: 10px;
         }
       }
     }

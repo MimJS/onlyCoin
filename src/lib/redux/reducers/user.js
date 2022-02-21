@@ -11,6 +11,10 @@ const init = {
   },
   friendsData: [],
   globalTransferData: [],
+  transferUrlData: {
+    params: {},
+    data: {},
+  },
 };
 
 export const userReducer = (state = init, action) => {
@@ -31,6 +35,10 @@ export const userReducer = (state = init, action) => {
       return { ...state, globalTransferData: action.payload };
     case "setTransferStatus":
       return { ...state, transferStatus: action.payload };
+    case "setTransferUrlData":
+      let obj = state.transferUrlData;
+      obj[action.payload.name] = action.payload.value;
+      return { ...state, transferUrlData: obj };
     default:
       return state;
   }

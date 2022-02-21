@@ -1,5 +1,13 @@
 import { store } from "../redux";
-import { PAGE_ERROR, PAGE_MAIN, POPOUT_STATUSCOINS, router } from "../routes";
+import {
+  PAGE_ERROR,
+  PAGE_MAIN,
+  PAGE_TRANSFER,
+  POPOUT_SENDCOINS,
+  POPOUT_STATUSCOINS,
+  POPOUT_SUCESSTRANSFER,
+  router,
+} from "../routes";
 
 let ws = null;
 let isConnected = false;
@@ -118,6 +126,26 @@ const wsListener = () => {
               payload: args.items,
             });
             break;
+          case "prepare":
+            const transferData = store.getState().user.transferUrlData;
+            console.log(transferData);
+            router.pushPage(PAGE_TRANSFER);
+            router.pushPopup(POPOUT_SENDCOINS, transferData);
+            break;
+          case "success":
+            router.replacePopup(POPOUT_SUCESSTRANSFER, {
+              data: args.response[0],
+            });
+            break;
+          case "false":
+            store.dispatch({
+              type: "setTransferStatus",
+              payload: {
+                status: false,
+                error_msg: args.error_public,
+              },
+            });
+            break;
           default:
             return;
         }
@@ -135,6 +163,9 @@ const wsListener = () => {
               type: "setErrorCreateMerchant",
               payload: args,
             });
+            if (router.getCurrentLocation().route.pageId == "/createmerchant") {
+              router.popPage();
+            }
             break;
           case "getById":
             store.dispatch({
@@ -224,5 +255,6 @@ export const getWs = () => {
   return {
     status: isConnected ? ws.readyState : 5,
     client: ws,
+    isConnected: isConnected,
   };
 };

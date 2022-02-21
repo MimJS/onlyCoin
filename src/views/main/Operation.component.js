@@ -130,7 +130,17 @@ export const OperationComponent = ({ dbData, usersData, groupsData }) => {
                     {numberFormat(v.amount)} OC
                   </span>
                 }
-                after={<span className="date">{msToDate(v.create_date)}</span>}
+                after={
+                  <span className="date">
+                    {v.payload ? (
+                      <>
+                        <span>code: {v.payload}</span>
+                        <br />
+                      </>
+                    ) : null}
+                    {msToDate(v.create_date)}
+                  </span>
+                }
               >
                 {id > 0 && (
                   <>

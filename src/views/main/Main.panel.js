@@ -8,7 +8,7 @@ import {
   Snackbar,
   Spinner,
 } from "@vkontakte/vkui";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   getGroupsVkData,
   getUsersVkData,
@@ -31,9 +31,11 @@ import {
   PAGE_TRANSFER,
   POPOUT_BUYCOINS,
   POPOUT_SELLCOINS,
+  PAGE_MAIN,
+  POPOUT_RECEIVE,
 } from "../../lib/routes";
 import { OperationComponent } from "./Operation.component";
-import { useRouter } from "@happysanta/router";
+import { useParams, useRouter, useLocation } from "@happysanta/router";
 
 export const MainPanel = ({ id, changePopout }) => {
   const dbData = useSelector((s) => s.user.db);
@@ -45,6 +47,9 @@ export const MainPanel = ({ id, changePopout }) => {
   const [snackBar, setSnackBar] = useState(null);
   const [hideAdsButton, setHideAdsButton] = useState(false);
   const router = useRouter();
+  const params = useParams();
+  const dispatch = useDispatch();
+  const location = useLocation();
   const menu = [
     {
       icon: <Icon28FavoriteOutline width={32} height={32} fill="white" />,
@@ -158,8 +163,58 @@ export const MainPanel = ({ id, changePopout }) => {
       console.log(res);
       setGroupsData(res);
     };
-    sortGroupsOperation(dbData.transactions, dbData.id);
-    sortUserOperation(dbData.transactions, dbData.id);
+    const checkTransferUrl = async () => {
+      console.log(location);
+      if (params[0]) {
+        let [id, sum, payload, isLock] = params[0].split("_");
+        console.log(id, sum, payload, isLock);
+        id = Number(id);
+        if (isNaN(id)) {
+          return router.replacePage(PAGE_MAIN);
+        }
+        id = Math.floor(id);
+        const res =
+          id > 0
+            ? await getUsersVkData([id])
+            : await getGroupsVkData([Math.abs(id)]);
+        console.log(res);
+        let receiverData =
+          Object.keys(res).length > 0 ? res[Math.abs(id)] : { id: id };
+        let paramsData = {
+          id: id,
+          sum: sum && !isNaN(Number(sum)) ? Math.floor(sum) : null,
+          payload: payload ? payload : null,
+          isLock: isLock ? isLock : 0,
+        };
+        dispatch({
+          type: "setTransferUrlData",
+          payload: {
+            name: "params",
+            value: paramsData,
+          },
+        });
+        dispatch({
+          type: "setTransferUrlData",
+          payload: {
+            name: "data",
+            value: receiverData,
+          },
+        });
+        router.replacePage(PAGE_MAIN);
+        wsQuery("transfers:prepare", { to_id: id });
+        console.log("transfer url");
+      } else {
+        router.replacePage(PAGE_MAIN);
+      }
+    };
+    if (Object.keys(dbData).length > 0 && isLoad) {
+      if (location.route.pageId.startsWith("/send_")) {
+        checkTransferUrl();
+      } else {
+        sortGroupsOperation(dbData.transactions, dbData.id);
+        sortUserOperation(dbData.transactions, dbData.id);
+      }
+    }
   }, [dbData]);
 
   const setInfo = (value) => {

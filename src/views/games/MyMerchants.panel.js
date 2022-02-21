@@ -115,7 +115,7 @@ export const MyMerchantsPanel = ({ id }) => {
             <div
               className="toolBlock"
               onClick={() => {
-                window.open("https://github.com/sanyok12345/vkonlyplay-api");
+                window.open("https://github.com/sanyok12345/vkonlycoin-api");
               }}
             >
               <Icon20QuestionCircleFillViolet width={24} height={24} />

@@ -15,29 +15,62 @@ import { wsQuery } from "../../lib/scripts/ws";
 
 export const SendCoinPopout = () => {
   const router = useRouter();
-  const { data } = useParams();
-  const [sum, setSum] = useState("");
+  const { data, params } = useParams();
+  const [sum, setSum] = useState(
+    params && params.sum ? String(Number(params.sum / 1000)) : ""
+  );
   const [isError, setError] = useState(false);
-  const [disableButton, setDisableButton] = useState(true);
+  const [disableButton, setDisableButton] = useState(
+    params && params.sum ? false : true
+  );
   const dbData = useSelector((s) => s.user.db);
   const dispatch = useDispatch();
+  const transferStatus = useSelector((s) => s.user.transferStatus);
   return (
-    <Alert className={POPOUT_SENDCOINS} onClose={() => router.popPage()}>
+    <Alert
+      className={POPOUT_SENDCOINS}
+      onClose={() => {
+        dispatch({
+          type: "setTransferStatus",
+          payload: { status: true },
+        });
+        router.popPage();
+      }}
+    >
       <SimpleCell
         hasHover={false}
         hasActive={false}
-        before={<Avatar size={48} src={data.photo_100} />}
-        description={`${numberFormat(data.coins)} OC`}
+        disabled
+        before={<Avatar size={48} src={data ? data.photo_100 : null} />}
+        description={
+          params
+            ? `Оплата${
+                params.payload && params.id < 0
+                  ? `, (код: ${params.payload})`
+                  : ""
+              }`
+            : `${numberFormat(data.coins)} OC`
+        }
       >
-        {`${data.first_name} ${data.last_name}`}
+        {params && params.id < 0
+          ? data.name
+          : `${data.first_name} ${data.last_name}`}
       </SimpleCell>
       <div className="form">
         <FormItem
           top="Сумма перевода"
-          bottom={isError ? "Невалидное значение" : null}
-          status={isError ? "error" : null}
+          bottom={
+            transferStatus?.status == false
+              ? transferStatus?.error_msg
+              : isError
+              ? "Невалидное значение"
+              : null
+          }
+          status={isError || transferStatus?.status == false ? "error" : null}
         >
           <Input
+            readOnly={params && params.isLock == 1 && params.sum ? true : false}
+            disabled={params && params.isLock == 1 && params.sum ? true : false}
             value={isNumeric(sum) ? formatNumber(sum, 0) : sum}
             placeholder={"0.001"}
             inputMode="numeric"
@@ -91,13 +124,19 @@ export const SendCoinPopout = () => {
           <Button
             size="m"
             mode="primary"
+            stretched
             disabled={disableButton}
             onClick={() => {
               setDisableButton(true);
-              wsQuery("transfers:create", {
+              const to_id = params ? params.id : data.id;
+              let tempObj = {
                 amount: sum * 1000,
-                to_id: data.id,
-              });
+                to_id: to_id,
+              };
+              if (params && params.payload) {
+                tempObj.payload = Number(params.payload);
+              }
+              wsQuery("transfers:create", tempObj);
               setDisableButton(false);
             }}
           >
