@@ -1,17 +1,25 @@
-import { Alert, Button, FormItem, Input, SimpleCell } from "@vkontakte/vkui";
+import {
+  Alert,
+  Button,
+  FormItem,
+  Input,
+  SimpleCell,
+  Link,
+} from "@vkontakte/vkui";
 import { useRouter } from "@happysanta/router";
 import { Icon28MoneyRequestOutline } from "@vkontakte/icons";
 import { POPOUT_BUYCOINS } from "../../lib/routes";
 import { numberFormat, isNumeric, formatNumber } from "../../lib/scripts/util";
 import { useSelector } from "react-redux";
 import { useState } from "react";
+import { isSafari, isIOS } from "react-device-detect";
 
 export const BuyCoinsPopout = () => {
   const router = useRouter();
   const courseInfo = useSelector((s) => s.game?.information?.course);
   const [replenishAmount, setReplenishAmount] = useState("");
   const [isError, setError] = useState(false);
-  const [disableButton, setDisableButton] = useState(true)
+  const [disableButton, setDisableButton] = useState(true);
   return (
     <Alert onClose={() => router.popPage()} className={POPOUT_BUYCOINS}>
       <SimpleCell
@@ -80,10 +88,10 @@ export const BuyCoinsPopout = () => {
                   Number(v) === 0
                 ) {
                   setError(true);
-                  setDisableButton(true)
+                  setDisableButton(true);
                 } else {
                   setError(false);
-                  setDisableButton(false)
+                  setDisableButton(false);
                 }
                 return setReplenishAmount(v);
               }}
@@ -91,16 +99,28 @@ export const BuyCoinsPopout = () => {
           </div>
         </FormItem>
         <FormItem>
-          <Button
-            size="m"
-            disabled={disableButton}
-            onClick={() => {
-              window.open(`https://vk.com/coin#x650454742_${replenishAmount * 1000}_1`);
-              router.popPage()
-            }}
+          <Link
+            href={
+              !disableButton
+                ? `https://${
+                    isSafari || isIOS ? "m." : ""
+                  }vk.com/coin#x650454742_${replenishAmount * 1000}_1`
+                : null
+            }
+            target="_blank"
+            hasHover={false}
+            hasActive={false}
           >
-            Пополнить
-          </Button>
+            <Button
+              size="m"
+              disabled={disableButton}
+              onClick={() => {
+                router.popPage();
+              }}
+            >
+              Пополнить
+            </Button>
+          </Link>
         </FormItem>
       </div>
     </Alert>

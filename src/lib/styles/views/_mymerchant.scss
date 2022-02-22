@@ -25,6 +25,15 @@
     }
     .toolList {
       margin-top: 15px;
+      .vkuiLink {
+        .toolBlock {
+          .Icon {
+            margin-left: 0px;
+          }
+          margin-top: 20px;
+          color: var(--text_primary);
+        }
+      }
       .toolBlock {
         display: flex;
         align-items: center;

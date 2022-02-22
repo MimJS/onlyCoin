@@ -8,6 +8,7 @@ import {
   PanelHeaderContent,
   Spinner,
   PullToRefresh,
+  Link,
 } from "@vkontakte/vkui";
 import { useRouter } from "@happysanta/router";
 import { useSelector } from "react-redux";
@@ -86,17 +87,16 @@ export const GamesPanel = ({ id }) => {
                       hasActive={false}
                       disabled
                       after={
-                        <Button
-                          size="s"
-                          mode="primary"
-                          onClick={() => {
-                            if (v.open_link.indexOf("vk.") >= 0) {
-                              window.open(v.open_link);
-                            }
-                          }}
+                        <Link
+                          hasHover={false}
+                          hasActive={false}
+                          target="_blank"
+                          href={v.open_link}
                         >
-                          Играть
-                        </Button>
+                          <Button size="s" mode="primary">
+                            Играть
+                          </Button>
+                        </Link>
                       }
                     >
                       {haveData ? data.name : `@public${Math.abs(v.id)}`}

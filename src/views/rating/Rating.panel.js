@@ -10,6 +10,7 @@ import {
   PullToRefresh,
   SimpleCell,
   Spinner,
+  Link,
 } from "@vkontakte/vkui";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -131,51 +132,17 @@ export const RatingPanel = ({ id }) => {
                   const haveData = typeof tempUserData[v.id] !== "undefined";
                   const data = tempUserData[v.id];
                   return (
-                    <SimpleCell
-                      key={i}
-                      className={"ratingCell"}
-                      hasHover={false}
+                    <Link
                       hasActive={false}
-                      onClick={() => {
-                        window.open(`https://vk.com/id${v.id}`);
-                      }}
-                      before={
-                        <div className="position">
-                          <span className="pos">
-                            <span>{i + 1}</span>
-                          </span>
-                          <Avatar
-                            size={48}
-                            src={haveData ? data.photo_100 : null}
-                          />
-                        </div>
-                      }
-                      description={
-                        <span className="sum">{numberFormat(v.coins)} OC</span>
-                      }
+                      hasHover={false}
+                      href={`https://vk.com/id${v.id}`}
+                      target="_blank"
                     >
-                      {haveData
-                        ? `${data.first_name} ${data.last_name}`
-                        : `@id${v.id}`}
-                    </SimpleCell>
-                  );
-                })
-              : null}
-            {activeInfo === 1
-              ? ratings?.merchants?.items.length > 0
-                ? ratings?.merchants?.items.map((v, i) => {
-                    const haveData =
-                      typeof tempMerchantData[Math.abs(v.id)] !== "undefined";
-                    const data = tempMerchantData[Math.abs(v.id)];
-                    return (
                       <SimpleCell
                         key={i}
                         className={"ratingCell"}
                         hasHover={false}
                         hasActive={false}
-                        onClick={() => {
-                          window.open(`https://vk.com/public${Math.abs(v.id)}`);
-                        }}
                         before={
                           <div className="position">
                             <span className="pos">
@@ -193,8 +160,54 @@ export const RatingPanel = ({ id }) => {
                           </span>
                         }
                       >
-                        {haveData ? `${data.name}` : `@public${Math.abs(v.id)}`}
+                        {haveData
+                          ? `${data.first_name} ${data.last_name}`
+                          : `@id${v.id}`}
                       </SimpleCell>
+                    </Link>
+                  );
+                })
+              : null}
+            {activeInfo === 1
+              ? ratings?.merchants?.items.length > 0
+                ? ratings?.merchants?.items.map((v, i) => {
+                    const haveData =
+                      typeof tempMerchantData[Math.abs(v.id)] !== "undefined";
+                    const data = tempMerchantData[Math.abs(v.id)];
+                    return (
+                      <Link
+                        hasActive={false}
+                        hasHover={false}
+                        href={`https://vk.com/public${Math.abs(v.id)}`}
+                        target="_blank"
+                      >
+                        <SimpleCell
+                          key={i}
+                          className={"ratingCell"}
+                          hasHover={false}
+                          hasActive={false}
+                          before={
+                            <div className="position">
+                              <span className="pos">
+                                <span>{i + 1}</span>
+                              </span>
+                              <Avatar
+                                size={48}
+                                src={haveData ? data.photo_100 : null}
+                              />
+                            </div>
+                          }
+                          description={
+                            <span className="sum">
+                              {numberFormat(v.coins)} OC
+                            </span>
+                          }
+                        >
+                          {haveData
+                            ? `${data.name}`
+                            : `@public${Math.abs(v.id)}`}
+                        </SimpleCell>
+                      </Link>
                     );
                   })
                 : null

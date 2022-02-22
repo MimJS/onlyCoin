@@ -85,9 +85,15 @@
     .Button {
       border-radius: 8px;
       .Button__content {
-        color: white;
+        color: var(
+          --button_primary_foreground,
+          var(--vkui--color_text_contrast)
+        );
       }
       &:first-child {
+        .vkuiButton__content {
+          color: white !important;
+        }
         background-color: #e64646 !important;
       }
     }

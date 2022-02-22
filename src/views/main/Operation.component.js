@@ -3,7 +3,7 @@ import {
   Icon28MoneyRequestOutline,
   Icon28MoneySendOutline,
 } from "@vkontakte/icons";
-import { SimpleCell, Avatar } from "@vkontakte/vkui";
+import { SimpleCell, Avatar, Link } from "@vkontakte/vkui";
 import { msToDate, numberFormat } from "../../lib/scripts/util";
 
 export const OperationComponent = ({ dbData, usersData, groupsData }) => {
@@ -105,54 +105,58 @@ export const OperationComponent = ({ dbData, usersData, groupsData }) => {
               data = groupsData[Math.abs(id)];
             }
             return (
-              <SimpleCell
-                key={i}
-                onClick={() => {
-                  if (id < 0) {
-                    window.open(`https://vk.com/public${id}`);
-                  } else {
-                    window.open(`https://vk.com/id${id}`);
-                  }
-                }}
-                className="paymentBlock"
-                before={
-                  <Avatar size={48} src={haveData ? data.photo_100 : null} />
-                }
+              <Link
                 hasHover={false}
                 hasActive={false}
-                description={
-                  <span
-                    className={`sum ${
-                      v.from_id === dbData.id ? "minus" : "plus"
-                    }`}
-                  >
-                    {v.from_id === dbData.id ? "-" : "+"}{" "}
-                    {numberFormat(v.amount)} OC
-                  </span>
+                href={
+                  id < 0
+                    ? `https://vk.com/public${id}`
+                    : `https://vk.com/id${id}`
                 }
-                after={
-                  <span className="date">
-                    {v.payload ? (
-                      <>
-                        <span>code: {v.payload}</span>
-                        <br />
-                      </>
-                    ) : null}
-                    {msToDate(v.create_date)}
-                  </span>
-                }
+                target="_blank"
               >
-                {id > 0 && (
-                  <>
-                    {haveData
-                      ? `${data.first_name} ${data.last_name}`
-                      : `@id${id}`}
-                  </>
-                )}
-                {id < 0 && (
-                  <>{haveData ? data.name : `@public${Math.abs(id)}`}</>
-                )}
-              </SimpleCell>
+                <SimpleCell
+                  key={i}
+                  className="paymentBlock"
+                  before={
+                    <Avatar size={48} src={haveData ? data.photo_100 : null} />
+                  }
+                  hasHover={false}
+                  hasActive={false}
+                  description={
+                    <span
+                      className={`sum ${
+                        v.from_id === dbData.id ? "minus" : "plus"
+                      }`}
+                    >
+                      {v.from_id === dbData.id ? "-" : "+"}{" "}
+                      {numberFormat(v.amount)} OC
+                    </span>
+                  }
+                  after={
+                    <span className="date">
+                      {v.payload ? (
+                        <>
+                          <span>code: {v.payload}</span>
+                          <br />
+                        </>
+                      ) : null}
+                      {msToDate(v.create_date)}
+                    </span>
+                  }
+                >
+                  {id > 0 && (
+                    <>
+                      {haveData
+                        ? `${data.first_name} ${data.last_name}`
+                        : `@id${id}`}
+                    </>
+                  )}
+                  {id < 0 && (
+                    <>{haveData ? data.name : `@public${Math.abs(id)}`}</>
+                  )}
+                </SimpleCell>
+              </Link>
             );
           }
         })}

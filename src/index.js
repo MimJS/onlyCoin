@@ -6,6 +6,7 @@ import { RouterContext } from "@happysanta/router";
 import { router } from "./lib/routes";
 import { Provider } from "react-redux";
 import { store } from "./lib/redux";
+import { ConfigProvider } from "@vkontakte/vkui";
 
 // Init VK  Mini App
 bridge.send("VKWebAppInit");
@@ -16,7 +17,9 @@ router.start();
 ReactDOM.render(
   <Provider store={store}>
     <RouterContext.Provider value={router}>
-      <App />
+      <ConfigProvider platform="android">
+        <App />
+      </ConfigProvider>
     </RouterContext.Provider>
   </Provider>,
   document.getElementById("root")

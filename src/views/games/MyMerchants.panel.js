@@ -7,6 +7,7 @@ import {
   PanelHeaderContent,
   PullToRefresh,
   Spinner,
+  Link,
 } from "@vkontakte/vkui";
 import { useRouter } from "@happysanta/router";
 import { useSelector } from "react-redux";
@@ -112,15 +113,17 @@ export const MyMerchantsPanel = ({ id }) => {
               <Icon20AddCircleFillBlue width={24} height={24} />
               <span className="text">Создать мерчант</span>
             </div>
-            <div
-              className="toolBlock"
-              onClick={() => {
-                window.open("https://github.com/sanyok12345/vkonlycoin-api");
-              }}
+            <Link
+              hasActive={false}
+              hasHover={false}
+              target="_blank"
+              href="https://github.com/sanyok12345/vkonlycoin-api"
             >
-              <Icon20QuestionCircleFillViolet width={24} height={24} />
-              <span className="text">Документация</span>
-            </div>
+              <div className="toolBlock">
+                <Icon20QuestionCircleFillViolet width={24} height={24} />
+                <span className="text">Документация</span>
+              </div>
+            </Link>
           </div>
         </div>
       </PullToRefresh>
