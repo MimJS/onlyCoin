@@ -60,7 +60,7 @@ export const CreateMerchantPanel = ({ id }) => {
             value={vkId}
             onChange={(e) => {
               const value = String(e.currentTarget.value).replace(
-                /[^A-Za-z0-9/.]/g,
+                /[^A-Za-z0-9/._:]/g,
                 ""
               );
               setVkId(value);

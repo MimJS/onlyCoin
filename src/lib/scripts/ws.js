@@ -156,12 +156,17 @@ const wsListener = () => {
             });
             break;
           case "create":
-            store.dispatch({
-              type: "setErrorCreateMerchant",
-              payload: args,
-            });
-            if (router.getCurrentLocation().route.pageId == "/createmerchant") {
-              router.popPage();
+            if (args.status == false) {
+              store.dispatch({
+                type: "setErrorCreateMerchant",
+                payload: args,
+              });
+            } else {
+              if (
+                router.getCurrentLocation().route.pageId == "/createmerchant"
+              ) {
+                router.popPage();
+              }
             }
             break;
           case "getById":
