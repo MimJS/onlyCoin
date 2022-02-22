@@ -110,7 +110,7 @@ export const OperationComponent = ({ dbData, usersData, groupsData }) => {
                 hasActive={false}
                 href={
                   id < 0
-                    ? `https://vk.com/public${id}`
+                    ? `https://vk.com/public${Math.abs(id)}`
                     : `https://vk.com/id${id}`
                 }
                 target="_blank"
